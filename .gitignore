@@ -1,0 +1,12 @@
+fastcgi_params
+fastcgi_params-dist
+koi-utf
+koi-win
+mime.types
+mime.types-dist
+nginx.conf-dist
+scgi_params
+scgi_params-dist
+uwsgi_params
+uwsgi_params-dist
+win-utf
