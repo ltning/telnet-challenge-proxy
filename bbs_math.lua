@@ -104,8 +104,6 @@ else
         _data, err, partial = reader(1)
     end
 end
--- ngx.say("read the data stream:", s, ", :", data, ":end\r\n" )
-
 
 -- Pick any consecutive number of digits from the given answer.
 -- string.find(): %d+ represents 'digits, one or more'.
