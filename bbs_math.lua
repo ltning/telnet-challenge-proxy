@@ -8,8 +8,8 @@ local sock = assert(ngx.req.socket(true))
 -- (otherwise we'd be asking the same question every time we restart nginx).
 math.randomseed(os.time())
 -- Generate the actual math quiz..
-local num1 = math.random(2,5)
-local num2 = math.random(2,4)
+local num1 = math.random(1,8)
+local num2 = math.random(1,9-num1)
 -- ...we should probably know the answer, too..
 local ans = num1+num2
 
