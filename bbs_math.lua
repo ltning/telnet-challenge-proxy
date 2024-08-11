@@ -13,6 +13,14 @@ local num2 = math.random(1,9-num1)
 -- ...we should probably know the answer, too..
 local ans = num1+num2
 
+-- IMPORTANT: This number tells the script how many active connections to
+-- allow; it *must* be the same as the sum of max_conn settings for the
+-- upstreams defined in nginx.conf!
+local max_conns = 2
+
+-- Access the shared DICT for the active user counter, for later use
+local users = ngx.shared.users
+
 -- Use 'ngx.say()' to talk to the connecting client. This function will add
 -- a newline ('\n') to the end of each line, but we need to add the carriage
 -- return as well, since, well, DOS and Windows and whatnot. Start with a
