@@ -123,15 +123,29 @@ end
 -- Compare the given answer to our precomputed one. Make sure the answer is
 -- cast into a number, otherwise the comparison will fail.
 if tonumber(res) == ans then
-    -- Confirm to the user
-    ngx.say("\r\n\rYou lucky duck, you! Now step into my office..\r\n\r")
-    -- Import and increase the shared counter (see nginx.conf)
-    local users = ngx.shared.users
-    users:incr(active, 1, 0)
-    -- Set the nginx variable (which is connection-local) indicating
-    -- the user might be human
-    ngx.var.bbs_challenge_passed = 1
-    -- then continue to end of script.
+    -- Check again whether we have capacity for this user (in case someone
+    -- else connected in the meantime)
+    local usercount = users:get("active")
+    if usercount and usercount >= max_conns then
+        ngx.say("\r\n\rSorry, but someone arrived before you could answer, and now all nodes are busy.\r")
+        ngx.say("Please try again soon!\r\n\r")
+        ngx.say("(While you wait, check out http://floppy.museum/bbs.htm !)\r\n\r")
+        ngx.exit(429)
+    else
+        -- Increase the shared counter (see nginx.conf)
+        local newval, err = users:incr("active", 1, 0)
+        if err then
+            ngx.log(ngx.ERR, "Failed to increase user count: ", err)
+            ngx.exit(500)
+        end
+
+        -- Confirm to the user
+        ngx.say("\r\n\rYou lucky duck, you! Now step into my office..\r\n\r")
+        -- Set the nginx variable (which is connection-local) indicating
+        -- the user might be human
+        ngx.var.bbs_challenge_passed = 1
+        -- then continue to end of script.
+    end
 
 -- Here we're checking if the answer is actually a number, and if it is..
 elseif tonumber(res) then
