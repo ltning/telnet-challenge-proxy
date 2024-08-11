@@ -88,8 +88,15 @@ local _,_,res = string.find(data, "(%d+)")
 -- Compare the given answer to our precomputed one. Make sure the answer is
 -- cast into a number, otherwise the comparison will fail.
 if tonumber(res) == ans then
-    -- Confirm to the user, then continue to end of script.
+    -- Confirm to the user
     ngx.say("\r\n\rYou lucky duck, you! Now step into my office..\r\n\r")
+    -- Import and increase the shared counter (see nginx.conf)
+    local users = ngx.shared.users
+    users:incr(active, 1, 0)
+    -- Set the nginx variable (which is connection-local) indicating
+    -- the user might be human
+    ngx.var.bbs_challenge_passed = 1
+    -- then continue to end of script.
 
 -- Here we're checking if the answer is actually a number, and if it is..
 elseif tonumber(res) then
