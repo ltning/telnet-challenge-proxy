@@ -4,6 +4,7 @@ In order to protect my BBS nodes - which run on rather old hardware - from abuse
 
 ## My BBS
 Take a look at http://floppy.museum/bbs.htm for details. At the moment, it's running on Synchronet for OS/2 and DOS; other nodes and different flavors may be added in the future.
+
 Pictures:
 - https://anduin.net/~ltning/bbspc_1.jpg
 - https://anduin.net/~ltning/bbspc_2.jpg
