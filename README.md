@@ -6,9 +6,9 @@ In order to protect my BBS nodes - which run on rather old hardware - from abuse
 Take a look at http://floppy.museum/bbs.htm for details. At the moment, it's running on Synchronet for OS/2 and DOS; other nodes and different flavors may be added in the future.
 
 ## Assumptions
-This configuration assumes that the `nginx` package is installed on FreeBSD, and that it is compiled with Lua and Lua Stream modules.
+This configuration assumes that the `nginx` package is installed on FreeBSD, and that it is compiled with stream support, Lua and Lua Stream modules.
 
-More information about these can be found at
+More information about the required 3rd party modules can be found at
 - https://github.com/openresty/lua-nginx-module
 - https://github.com/openresty/stream-lua-nginx-module
 
