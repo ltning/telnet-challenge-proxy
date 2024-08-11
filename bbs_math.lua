@@ -109,7 +109,16 @@ end
 -- string.find(): %d+ represents 'digits, one or more'.
 -- Wrapping that in (..) captures the first instance into the 'res'
 -- variable (the two '_' variables are throwaways).
-local _,_,res = string.find(data, "(%d+)")
+local res, _
+if data ~= nil then
+    -- Only do all this if there are actual data to be read.
+    _,_,res = string.find(data, "(%d+)")
+else
+    -- Not sure if we should be polite here; it'll usually either be
+    -- network scans (benign or not) or script kiddies hitting..
+    ngx.say("\r\n\rSomething went wrong and no data was received.\r\n\r")
+    ngx.exit(400)
+end
 
 -- Compare the given answer to our precomputed one. Make sure the answer is
 -- cast into a number, otherwise the comparison will fail.
