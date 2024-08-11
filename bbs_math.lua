@@ -27,6 +27,26 @@ local users = ngx.shared.users
 -- couple blank lines to make sure the text is easy to read.
 ngx.say("\r\n\r")
 ngx.say("Hello!\r\n\r")
+
+-- Now we need to determine if we can even accept this visitor; if we can
+-- not, try to be polite about it. First we fetch the current number of
+-- active users..
+local usercount = users:get("active")
+-- ..then we compare to the max_conns variable we set above:
+if usercount and usercount >= max_conns then
+    -- Give a reasonable error message..
+    ngx.say("    Too many active users, sorry! Try again later!\r\n\r")
+    ngx.say("    (While you wait, check out http://floppy.museum/bbs.htm !)\r\n\r")
+    -- Sleep a couple of sconds in case the user's terminal clears the
+    -- screen on disconnect (or to tie up resources if there's a scanner
+    -- or bot attempting to connect) - then exit:
+    ngx.sleep(3)
+    ngx.exit(400)
+end
+
+-- If we made it here, all is presumably good (it can still go wrong if we
+-- have other guests arriving while the challenge is being handled, but
+-- we'll worry about that after the challenge.)
 ngx.say("\r")
 ngx.say("   =====================================================   \r")
 ngx.say("   If you experience trouble, especially with the mail-\r")
